@@ -13,6 +13,15 @@
 		D462D4541A17D6B700A13137 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D462D4531A17D6B700A13137 /* Images.xcassets */; };
 		D462D4571A17D6B700A13137 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D462D4551A17D6B700A13137 /* LaunchScreen.xib */; };
 		D462D4631A17D6B700A13137 /* WalletPicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D462D4621A17D6B700A13137 /* WalletPicTests.swift */; };
+		D462D4731A17D6FE00A13137 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D462D4721A17D6FE00A13137 /* NotificationCenter.framework */; };
+		D462D4781A17D6FE00A13137 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D462D4771A17D6FE00A13137 /* TodayViewController.swift */; };
+		D462D47A1A17D6FE00A13137 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D462D4791A17D6FE00A13137 /* MainInterface.storyboard */; };
+		D462D47D1A17D6FE00A13137 /* Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D462D4701A17D6FE00A13137 /* Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D462D4821A17DA6900A13137 /* Images.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = D462D4531A17D6B700A13137 /* Images.xcassets */; };
+		D462D4841A17F84300A13137 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D462D4831A17F84300A13137 /* Lato-Regular.ttf */; };
+		D462D4851A17F84300A13137 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D462D4831A17F84300A13137 /* Lato-Regular.ttf */; };
+		D462D4881A1809E800A13137 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D462D4871A1809E800A13137 /* CircleView.swift */; };
+		D462D4891A1809E800A13137 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D462D4871A1809E800A13137 /* CircleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,7 +32,28 @@
 			remoteGlobalIDString = D462D4461A17D6B700A13137;
 			remoteInfo = WalletPic;
 		};
+		D462D47B1A17D6FE00A13137 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D462D43F1A17D6B700A13137 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D462D46F1A17D6FE00A13137;
+			remoteInfo = Widget;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D462D4811A17D6FE00A13137 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D462D47D1A17D6FE00A13137 /* Widget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D462D4471A17D6B700A13137 /* WalletPic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalletPic.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,6 +66,13 @@
 		D462D45C1A17D6B700A13137 /* WalletPicTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletPicTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D462D4611A17D6B700A13137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D462D4621A17D6B700A13137 /* WalletPicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletPicTests.swift; sourceTree = "<group>"; };
+		D462D4701A17D6FE00A13137 /* Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Widget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D462D4721A17D6FE00A13137 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		D462D4761A17D6FE00A13137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D462D4771A17D6FE00A13137 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		D462D4791A17D6FE00A13137 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		D462D4831A17F84300A13137 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.ttf"; path = "../Lato-Regular.ttf"; sourceTree = "<group>"; };
+		D462D4871A1809E800A13137 /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +90,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D462D46D1A17D6FE00A13137 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D462D4731A17D6FE00A13137 /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -61,6 +106,8 @@
 			children = (
 				D462D4491A17D6B700A13137 /* WalletPic */,
 				D462D45F1A17D6B700A13137 /* WalletPicTests */,
+				D462D4741A17D6FE00A13137 /* Widget */,
+				D462D4711A17D6FE00A13137 /* Frameworks */,
 				D462D4481A17D6B700A13137 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -70,6 +117,7 @@
 			children = (
 				D462D4471A17D6B700A13137 /* WalletPic.app */,
 				D462D45C1A17D6B700A13137 /* WalletPicTests.xctest */,
+				D462D4701A17D6FE00A13137 /* Widget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -80,7 +128,9 @@
 				D462D44C1A17D6B700A13137 /* AppDelegate.swift */,
 				D462D44E1A17D6B700A13137 /* ViewController.swift */,
 				D462D4501A17D6B700A13137 /* Main.storyboard */,
+				D462D4871A1809E800A13137 /* CircleView.swift */,
 				D462D4531A17D6B700A13137 /* Images.xcassets */,
+				D462D4861A17F86D00A13137 /* Fonts */,
 				D462D4551A17D6B700A13137 /* LaunchScreen.xib */,
 				D462D44A1A17D6B700A13137 /* Supporting Files */,
 			);
@@ -112,6 +162,40 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D462D4711A17D6FE00A13137 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D462D4721A17D6FE00A13137 /* NotificationCenter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D462D4741A17D6FE00A13137 /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				D462D4771A17D6FE00A13137 /* TodayViewController.swift */,
+				D462D4791A17D6FE00A13137 /* MainInterface.storyboard */,
+				D462D4751A17D6FE00A13137 /* Supporting Files */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
+		D462D4751A17D6FE00A13137 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D462D4761A17D6FE00A13137 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D462D4861A17F86D00A13137 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				D462D4831A17F84300A13137 /* Lato-Regular.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -122,10 +206,12 @@
 				D462D4431A17D6B700A13137 /* Sources */,
 				D462D4441A17D6B700A13137 /* Frameworks */,
 				D462D4451A17D6B700A13137 /* Resources */,
+				D462D4811A17D6FE00A13137 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D462D47C1A17D6FE00A13137 /* PBXTargetDependency */,
 			);
 			name = WalletPic;
 			productName = WalletPic;
@@ -150,6 +236,23 @@
 			productReference = D462D45C1A17D6B700A13137 /* WalletPicTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D462D46F1A17D6FE00A13137 /* Widget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D462D47E1A17D6FE00A13137 /* Build configuration list for PBXNativeTarget "Widget" */;
+			buildPhases = (
+				D462D46C1A17D6FE00A13137 /* Sources */,
+				D462D46D1A17D6FE00A13137 /* Frameworks */,
+				D462D46E1A17D6FE00A13137 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Widget;
+			productName = Widget;
+			productReference = D462D4701A17D6FE00A13137 /* Widget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -165,6 +268,10 @@
 					D462D45B1A17D6B700A13137 = {
 						CreatedOnToolsVersion = 6.1;
 						TestTargetID = D462D4461A17D6B700A13137;
+					};
+					D462D46F1A17D6FE00A13137 = {
+						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = MNWALQ99ZA;
 					};
 				};
 			};
@@ -183,6 +290,7 @@
 			targets = (
 				D462D4461A17D6B700A13137 /* WalletPic */,
 				D462D45B1A17D6B700A13137 /* WalletPicTests */,
+				D462D46F1A17D6FE00A13137 /* Widget */,
 			);
 		};
 /* End PBXProject section */
@@ -195,6 +303,7 @@
 				D462D4521A17D6B700A13137 /* Main.storyboard in Resources */,
 				D462D4571A17D6B700A13137 /* LaunchScreen.xib in Resources */,
 				D462D4541A17D6B700A13137 /* Images.xcassets in Resources */,
+				D462D4841A17F84300A13137 /* Lato-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +314,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D462D46E1A17D6FE00A13137 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D462D47A1A17D6FE00A13137 /* MainInterface.storyboard in Resources */,
+				D462D4851A17F84300A13137 /* Lato-Regular.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -212,6 +330,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D462D4881A1809E800A13137 /* CircleView.swift in Sources */,
 				D462D44F1A17D6B700A13137 /* ViewController.swift in Sources */,
 				D462D44D1A17D6B700A13137 /* AppDelegate.swift in Sources */,
 			);
@@ -225,6 +344,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D462D46C1A17D6FE00A13137 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D462D4891A1809E800A13137 /* CircleView.swift in Sources */,
+				D462D4821A17DA6900A13137 /* Images.xcassets in Sources */,
+				D462D4781A17D6FE00A13137 /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -232,6 +361,11 @@
 			isa = PBXTargetDependency;
 			target = D462D4461A17D6B700A13137 /* WalletPic */;
 			targetProxy = D462D45D1A17D6B700A13137 /* PBXContainerItemProxy */;
+		};
+		D462D47C1A17D6FE00A13137 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D462D46F1A17D6FE00A13137 /* Widget */;
+			targetProxy = D462D47B1A17D6FE00A13137 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -338,6 +472,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = WalletPic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -348,6 +483,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = WalletPic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -388,6 +524,36 @@
 			};
 			name = Release;
 		};
+		D462D47F1A17D6FE00A13137 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Widget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D462D4801A17D6FE00A13137 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = Widget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -413,6 +579,14 @@
 			buildConfigurations = (
 				D462D46A1A17D6B700A13137 /* Debug */,
 				D462D46B1A17D6B700A13137 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D462D47E1A17D6FE00A13137 /* Build configuration list for PBXNativeTarget "Widget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D462D47F1A17D6FE00A13137 /* Debug */,
+				D462D4801A17D6FE00A13137 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

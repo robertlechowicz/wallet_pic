@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="M4Y-Lb-cyx">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <scenes>
+        <!--Today View Controller-->
+        <scene sceneID="cwh-vc-ff4">
+            <objects>
+                <viewController id="M4Y-Lb-cyx" customClass="TodayViewController" customModule="Widget" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ft6-oW-KC0"/>
+                        <viewControllerLayoutGuide type="bottom" id="FKl-LY-JtV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" simulatedAppContext="notificationCenter" id="S3S-Oj-5AN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ev0-Pr-P94">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="240" id="I13-Qs-bAL"/>
+                                    <constraint firstAttribute="width" constant="320" id="T3w-ZG-mA4"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m6x-aY-8Pn">
+                                <rect key="frame" x="0.0" y="170" width="320" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5o-o9-coM">
+                                        <rect key="frame" x="215" y="0.0" width="50" height="50"/>
+                                        <state key="normal" image="icoFbMessager">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bpZ-Uk-Yf9">
+                                        <rect key="frame" x="135" y="0.0" width="50" height="50"/>
+                                        <state key="normal" image="icoSms">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AGY-Aj-nke">
+                                        <rect key="frame" x="55" y="0.0" width="50" height="50"/>
+                                        <state key="normal" image="icoPhone">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="bpZ-Uk-Yf9" firstAttribute="top" secondItem="m6x-aY-8Pn" secondAttribute="top" id="5pz-U6-5aG"/>
+                                    <constraint firstItem="o5o-o9-coM" firstAttribute="top" secondItem="m6x-aY-8Pn" secondAttribute="top" id="6gG-in-3rx"/>
+                                    <constraint firstAttribute="height" constant="50" id="BMp-Vx-Boz"/>
+                                    <constraint firstItem="AGY-Aj-nke" firstAttribute="top" secondItem="m6x-aY-8Pn" secondAttribute="top" id="Izm-T6-qmf"/>
+                                    <constraint firstItem="AGY-Aj-nke" firstAttribute="centerX" secondItem="m6x-aY-8Pn" secondAttribute="trailing" multiplier="0.25" id="O3a-Xc-BmJ"/>
+                                    <constraint firstAttribute="centerX" secondItem="bpZ-Uk-Yf9" secondAttribute="centerX" id="ZcR-et-FPv"/>
+                                    <constraint firstItem="o5o-o9-coM" firstAttribute="centerX" secondItem="m6x-aY-8Pn" secondAttribute="trailing" multiplier="0.75" id="std-2c-1AR"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="leading" secondItem="Ev0-Pr-P94" secondAttribute="leading" multiplier="0.25" id="2k5-6V-Nq3"/>
+                            <constraint firstAttribute="trailing" secondItem="m6x-aY-8Pn" secondAttribute="trailing" id="SWJ-tI-tmT"/>
+                            <constraint firstItem="m6x-aY-8Pn" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" id="XsT-EN-Evp"/>
+                            <constraint firstItem="Ev0-Pr-P94" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" id="YNJ-SE-acG"/>
+                            <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="m6x-aY-8Pn" secondAttribute="bottom" constant="20" id="pcW-H5-6YA"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="240"/>
+                    <connections>
+                        <outlet property="buttonView" destination="m6x-aY-8Pn" id="Acd-8s-HHd"/>
+                        <outlet property="buttonViewBottomConstraint" destination="pcW-H5-6YA" id="SRs-5k-UK5"/>
+                        <outlet property="imageHeight" destination="I13-Qs-bAL" id="xac-db-xAL"/>
+                        <outlet property="imageView" destination="Ev0-Pr-P94" id="br7-qO-jKv"/>
+                        <outlet property="imageWidth" destination="T3w-ZG-mA4" id="u89-RF-fzQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="516" y="285"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="icoFbMessager" width="50" height="50"/>
+        <image name="icoPhone" width="50" height="50"/>
+        <image name="icoSms" width="50" height="50"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
