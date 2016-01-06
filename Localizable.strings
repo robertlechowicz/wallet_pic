@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  WalletPic
+
+  Created by Robert Lechowicz on 20.11.2014.
+  Copyright (c) 2014 128Pixels. All rights reserved.
+*/
+"Add photo from contact?" = "Dodać zdjęcie z kontaktu?";
+"Yes" = "Tak";
+"No" = "Nie";
+"Error" = "Błąd";
+"You have to open your friend profile page" = "Musisz otworzyć stronę profilu znajomego";
+"Select phone number" = "Wybierz numer";

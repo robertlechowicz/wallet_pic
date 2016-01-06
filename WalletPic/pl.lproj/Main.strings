@@ -1,0 +1,30 @@
+
+/* Class = "IBUILabel"; text = "PHONE NUMBER"; ObjectID = "3aJ-eM-bOl"; */
+"3aJ-eM-bOl.text" = "NUMER TELEFONU";
+
+/* Class = "IBUILabel"; text = "or"; ObjectID = "Euf-VZ-qFT"; */
+"Euf-VZ-qFT.text" = "lub";
+
+/* Class = "IBUINavigationItem"; title = "Select friend"; ObjectID = "FeS-5j-hGp"; */
+"FeS-5j-hGp.title" = "Wybierz znajomego";
+
+/* Class = "IBUIButton"; normalTitle = "Pick from address book"; ObjectID = "GCo-bJ-Pt0"; */
+"GCo-bJ-Pt0.normalTitle" = "Wybierz z kontaktów";
+
+/* Class = "IBUIButton"; normalTitle = "Select friend from Facebook"; ObjectID = "QOe-He-gHx"; */
+"QOe-He-gHx.normalTitle" = "Wybierz znajomego z Facebooka";
+
+/* Class = "IBUIViewController"; title = "Facebook picker"; ObjectID = "hdi-1E-ejg"; */
+"hdi-1E-ejg.title" = "Facebook picker";
+
+/* Class = "IBUITextField"; placeholder = "Click to write phone number"; ObjectID = "mhZ-gB-YjV"; */
+"mhZ-gB-YjV.placeholder" = "Naciśnij, żeby wpisać numer telefonu";
+
+/* Class = "IBUITextField"; placeholder = "Facebook friend name"; ObjectID = "qfo-3d-XOY"; */
+"qfo-3d-XOY.placeholder" = "Imię znajomego z Facebooka";
+
+/* Class = "IBUILabel"; text = "Login to Facebook, open your friend profile page and click Done."; ObjectID = "rTs-Kj-3xJ"; */
+"rTs-Kj-3xJ.text" = "Zaloguj się do Facebooka, otwórz profil znajomego i naciśnij Gotowe";
+
+/* Class = "IBUILabel"; text = "FACEBOOK ID"; ObjectID = "tyI-HJ-F9R"; */
+"tyI-HJ-F9R.text" = "FACEBOOK ID";

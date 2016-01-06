@@ -16,7 +16,7 @@ class CircleView: UIView {
       self.backgroundColor = UIColor.clearColor()
    }
 
-   required init(coder aDecoder: NSCoder) {
+   required init?(coder aDecoder: NSCoder) {
       super.init(coder: aDecoder)
       self.backgroundColor = UIColor.clearColor()
        //fatalError("init(coder:) has not been implemented")
@@ -24,7 +24,7 @@ class CircleView: UIView {
    
    
    override func drawRect(rect: CGRect) {
-      var context = UIGraphicsGetCurrentContext()
+      let context = UIGraphicsGetCurrentContext()
       
       CGContextSetLineWidth(context, 1.0)
       UIColor(red: 216.0/255.0, green: 218.0/255.0, blue: 220.0/255.0, alpha: 1.0).set()

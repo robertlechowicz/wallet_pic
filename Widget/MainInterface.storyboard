@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="M4Y-Lb-cyx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="M4Y-Lb-cyx">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -29,31 +30,52 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5o-o9-coM">
                                         <rect key="frame" x="215" y="0.0" width="50" height="50"/>
-                                        <state key="normal" image="icoFbMessager">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="AkS-U2-GWy"/>
+                                            <constraint firstAttribute="width" secondItem="o5o-o9-coM" secondAttribute="height" multiplier="1:1" id="y7d-sX-qlZ"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="icoFbMessager">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="buttonFBTapped:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="bS9-VC-uyh"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bpZ-Uk-Yf9">
                                         <rect key="frame" x="135" y="0.0" width="50" height="50"/>
-                                        <state key="normal" image="icoSms">
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="bpZ-Uk-Yf9" secondAttribute="height" multiplier="1:1" id="5FA-1i-KbT"/>
+                                            <constraint firstAttribute="width" constant="50" id="WzU-se-IXH"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="icoSms">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="buttonSMSTapped:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="8Cm-12-0LU"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AGY-Aj-nke">
+                                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AGY-Aj-nke">
                                         <rect key="frame" x="55" y="0.0" width="50" height="50"/>
-                                        <state key="normal" image="icoPhone">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="JAf-II-UFM"/>
+                                            <constraint firstAttribute="width" secondItem="AGY-Aj-nke" secondAttribute="height" multiplier="1:1" id="Q62-OQ-cEV"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="icoPhone">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="buttonPhoneTapped:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="RWZ-lJ-xaO"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="bpZ-Uk-Yf9" firstAttribute="top" secondItem="m6x-aY-8Pn" secondAttribute="top" id="5pz-U6-5aG"/>
-                                    <constraint firstItem="o5o-o9-coM" firstAttribute="top" secondItem="m6x-aY-8Pn" secondAttribute="top" id="6gG-in-3rx"/>
                                     <constraint firstAttribute="height" constant="50" id="BMp-Vx-Boz"/>
-                                    <constraint firstItem="AGY-Aj-nke" firstAttribute="top" secondItem="m6x-aY-8Pn" secondAttribute="top" id="Izm-T6-qmf"/>
+                                    <constraint firstAttribute="centerY" secondItem="bpZ-Uk-Yf9" secondAttribute="centerY" id="Cu3-BO-43g"/>
                                     <constraint firstItem="AGY-Aj-nke" firstAttribute="centerX" secondItem="m6x-aY-8Pn" secondAttribute="trailing" multiplier="0.25" id="O3a-Xc-BmJ"/>
+                                    <constraint firstAttribute="centerY" secondItem="AGY-Aj-nke" secondAttribute="centerY" id="XXA-pe-kDY"/>
                                     <constraint firstAttribute="centerX" secondItem="bpZ-Uk-Yf9" secondAttribute="centerX" id="ZcR-et-FPv"/>
+                                    <constraint firstAttribute="centerY" secondItem="o5o-o9-coM" secondAttribute="centerY" id="iAl-EW-CRx"/>
                                     <constraint firstItem="o5o-o9-coM" firstAttribute="centerX" secondItem="m6x-aY-8Pn" secondAttribute="trailing" multiplier="0.75" id="std-2c-1AR"/>
                                 </constraints>
                             </view>
@@ -73,8 +95,15 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="240"/>
                     <connections>
+                        <outlet property="buttonFB" destination="o5o-o9-coM" id="nLT-q2-XZt"/>
+                        <outlet property="buttonFBWidthConstraint" destination="AkS-U2-GWy" id="3Z6-wU-uv8"/>
+                        <outlet property="buttonPhone" destination="AGY-Aj-nke" id="0Ne-uy-8vb"/>
+                        <outlet property="buttonPhoneWidthConstraint" destination="JAf-II-UFM" id="twL-1H-FVv"/>
+                        <outlet property="buttonSMS" destination="bpZ-Uk-Yf9" id="ofa-ub-EiA"/>
+                        <outlet property="buttonSMSWidthConstraint" destination="WzU-se-IXH" id="qAy-kp-Ujq"/>
                         <outlet property="buttonView" destination="m6x-aY-8Pn" id="Acd-8s-HHd"/>
                         <outlet property="buttonViewBottomConstraint" destination="pcW-H5-6YA" id="SRs-5k-UK5"/>
+                        <outlet property="buttonViewHeightConstraint" destination="BMp-Vx-Boz" id="LRH-ip-tn0"/>
                         <outlet property="imageHeight" destination="I13-Qs-bAL" id="xac-db-xAL"/>
                         <outlet property="imageView" destination="Ev0-Pr-P94" id="br7-qO-jKv"/>
                         <outlet property="imageWidth" destination="T3w-ZG-mA4" id="u89-RF-fzQ"/>
