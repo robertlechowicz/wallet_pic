@@ -29,7 +29,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
    
    private var buttonViewHidden = false
    
-   let groupName = "group.com.128pixels.walletPic1"
+   let groupName = "group.com.128pixels.walletPic"
    
    var phone:String?
    var fbid:String?

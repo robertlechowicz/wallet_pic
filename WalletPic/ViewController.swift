@@ -24,7 +24,7 @@ class ViewController: UIViewController {
    @IBOutlet weak var scrollView: UIScrollView!
 
    
-   let groupName = "group.com.128pixels.walletPic1"
+   let groupName = "group.com.128pixels.walletPic"
    
    private var lastScale:CGFloat = 1.0
    private var firstX:CGFloat = 0
