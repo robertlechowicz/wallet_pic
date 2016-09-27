@@ -9,32 +9,27 @@
 import UIKit
 import ContactsUI
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, CNContactPickerDelegate {
+
+class ViewController: UIViewController {
 
    @IBOutlet weak var containerView: UIView!
    @IBOutlet weak var canvasView: UIView!
    @IBOutlet weak var imageView: UIImageView!
    @IBOutlet weak var buttonAddressPicker: UIButton!
-   @IBOutlet weak var buttonFacebook: UIButton!
    @IBOutlet weak var buttonCamera: UIButton!
    
    @IBOutlet weak var phoneField: UITextField!
    @IBOutlet weak var fbField: UITextField!
    
-   @IBOutlet weak var circle: CircleView!
-   @IBOutlet weak var circleOr: UILabel!
+   @IBOutlet weak var scrollView: UIScrollView!
+
    
-   @IBOutlet weak var buttonAddressPickerTopConstraint: NSLayoutConstraint!
-   @IBOutlet weak var buttonFacebookTopConstraint: NSLayoutConstraint!
-   
-   let groupName = "group.com.128pixels.walletPic"
+   let groupName = "group.com.128pixels.walletPic1"
    
    private var lastScale:CGFloat = 1.0
    private var firstX:CGFloat = 0
    private var firstY:CGFloat = 0
    
-   var fbid:String?
-   var fbName:String?
    
    var tempImageFromAddress:UIImage?
    
@@ -42,18 +37,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
    
    var shortIphone:Bool = false
    
-   override func preferredStatusBarStyle() -> UIStatusBarStyle {
-      return UIStatusBarStyle.LightContent
-   }
+   
    
    override func viewDidLoad() {
       super.viewDidLoad()
+      
       
       let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("didTapAnywhere:"))
       self.view.addGestureRecognizer(tapRecognizer)
       
       buttonAddressPicker.layer.cornerRadius = 20.0
-      buttonFacebook.layer.cornerRadius = 20.0
+      
       
       self.containerView.userInteractionEnabled = true
       self.containerView.clipsToBounds = true
@@ -72,24 +66,67 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
          shortIphone = true
       }
       
+      NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+      NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+      
       showData()
+   }
+   
+   func keyboardWillShow(notification: NSNotification) {
+
+      if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+         let contentInset = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height + 20.0, 0.0)
+         scrollView.contentInset = contentInset
+         scrollView.scrollIndicatorInsets = contentInset
+      }
+   }
+   
+   func keyboardWillHide(notification: NSNotification) {
+
+         let contentInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
+         scrollView.contentInset = contentInset
+         scrollView.scrollIndicatorInsets = contentInset
+
+   }
+   
+   func showImageAlert(image:UIImage) {
+      let alertImageView = UIAlertController(title: "", message: NSLocalizedString("Add photo from contact?", comment: ""), preferredStyle: UIAlertControllerStyle.ActionSheet)
+      let yesAction = UIAlertAction(title: NSLocalizedString("Yes", comment: ""), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+         alertImageView.removeFromParentViewController()
+         
+         self.showImage(image)
+         self.saveImage()
+         
+      })
+      alertImageView.addAction(yesAction)
+      let noAction = UIAlertAction(title: NSLocalizedString("No", comment: ""), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+         alertImageView.removeFromParentViewController()
+      })
+      alertImageView.addAction(noAction)
+      
+      if let popoverController = alertImageView.popoverPresentationController {
+         popoverController.sourceView = buttonAddressPicker
+         popoverController.sourceRect = buttonAddressPicker.bounds
+      }
+      
+      self.presentViewController(alertImageView, animated: true, completion: nil)
    }
    
    override func viewWillAppear(animated: Bool) {
       super.viewWillAppear(animated)
       
-      if shortIphone {
-         circle.hidden = true
-         circleOr.hidden = true
-         
-         buttonAddressPickerTopConstraint.constant = 8.0
-         buttonFacebookTopConstraint.constant = 8.0
-      }
+      UIApplication.sharedApplication().statusBarStyle = .LightContent
       
       
       if tempPhoneNumbers.count == 1 {
          self.phoneField.text = tempPhoneNumbers[0].value
          self.saveData()
+         
+         if let tempImage = self.tempImageFromAddress {
+            self.showImageAlert(tempImage)
+            self.tempImageFromAddress = nil
+         }
+         
       } else if tempPhoneNumbers.count > 1 {
          let alertPhoneView = UIAlertController(title: "", message: NSLocalizedString("Select phone number", comment: ""), preferredStyle: .ActionSheet)
          
@@ -99,6 +136,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                self.phoneField.text = phone.value
                self.saveData()
                alertPhoneView.removeFromParentViewController()
+               
+               if let tempImage = self.tempImageFromAddress {
+                  self.showImageAlert(tempImage)
+                  self.tempImageFromAddress = nil
+               }
+               
             })
             alertPhoneView.addAction(action)
          }
@@ -113,30 +156,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
          tempPhoneNumbers.removeAll()
       }
       
-      if tempImageFromAddress != nil {
-         let alertImageView = UIAlertController(title: "", message: NSLocalizedString("Add photo from contact?", comment: ""), preferredStyle: UIAlertControllerStyle.ActionSheet)
-         let yesAction = UIAlertAction(title: NSLocalizedString("Yes", comment: ""), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            alertImageView.removeFromParentViewController()
-            
-            self.showImage(self.tempImageFromAddress!)
-            self.tempImageFromAddress = nil
-            self.saveImage()
-            
-         })
-         alertImageView.addAction(yesAction)
-         let noAction = UIAlertAction(title: NSLocalizedString("No", comment: ""), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            alertImageView.removeFromParentViewController()
-            
-            self.tempImageFromAddress = nil
-         })
-         alertImageView.addAction(noAction)
-         
-         if let popoverController = alertImageView.popoverPresentationController {
-            popoverController.sourceView = buttonAddressPicker
-            popoverController.sourceRect = buttonAddressPicker.bounds
-         }
-         self.presentViewController(alertImageView, animated: true, completion: nil)
-      }
+      
    }
    
    func didTapAnywhere(recognizer:UITapGestureRecognizer) {
@@ -144,26 +164,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
    }
    
    @IBAction func buttonAddressPickerTapped(sender: UIButton) {
+      
       self.view.endEditing(true)
       let picker = ContactPickerViewController()
       picker.delegate = self
       presentViewController(picker, animated: true, completion: nil)
    }
    
-   func contactPicker(picker: CNContactPickerViewController, didSelectContact contact: CNContact) {
-      if contact.imageDataAvailable {
-         tempImageFromAddress = UIImage(data: contact.imageData!)!
-         
-      }
-      
-      tempPhoneNumbers.removeAll()
-      for phone in contact.phoneNumbers {
-         let t = (label: CNLabeledValue.localizedStringForLabel(phone.label), value: (phone.value as! CNPhoneNumber).stringValue)
-         tempPhoneNumbers.append(t)
-      }
-      
-      saveData()
-   }
+   
    
    
    @IBAction func buttonFacebookTapped(sender: UIButton) {
@@ -171,18 +179,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
    }
    
    @IBAction func buttonCameraTapped(sender: UIButton) {
-      let picker = UIImagePickerController()
+      let picker = ImagePickerViewController()
       picker.delegate = self
       presentViewController(picker, animated: true, completion: nil)
    }
    
-   func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-      dismissViewControllerAnimated(true, completion: nil)
-      
-      
-      showImage(image)
-      saveImage()
-   }
    
    func showImage(image:UIImage) {
       self.imageView.image = image
@@ -275,6 +276,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
          
          userDefaults?.setObject(relativePath, forKey: "path")
          
+         userDefaults?.setBool(true, forKey: "updated")
+         
          userDefaults?.synchronize()
          print("file saved") // at: \(url)")
       }
@@ -284,6 +287,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       let userDefaults = NSUserDefaults(suiteName: groupName)
       
       let phoneNumberPretty = phoneField.text
+      let fbName = fbField.text
+      
       var phoneNumber = phoneNumberPretty
       phoneNumber = phoneNumber!.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).joinWithSeparator("")
       phoneNumber = phoneNumber!.stringByReplacingOccurrencesOfString("-", withString: "")
@@ -293,9 +298,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       
       userDefaults?.setObject(phoneNumber, forKey: "phone")
       userDefaults?.setObject(phoneNumberPretty, forKey: "phonePretty")
-      userDefaults?.setObject(self.fbid, forKey: "fbid")
-      userDefaults?.setObject(self.fbName, forKey: "fbName")
+      userDefaults?.setObject(fbName, forKey: "fbName")
+      
+      userDefaults?.setBool(true, forKey: "updated")
+      
       userDefaults?.synchronize()
+      
+      print("data saved")
    }
    
    func showData() {
@@ -305,11 +314,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
          phoneField.text = possiblePhone
       }
       
-      if let possibleFB = userDefaults?.objectForKey("fbid") as! String? {
-         fbField.text = possibleFB
-      }
       if let possibleFBName = userDefaults?.objectForKey("fbName") as! String? {
-         fbField.text = "\(possibleFBName)  (\(fbField.text!))"
+         fbField.text = possibleFBName
       }
       
       let possiblePath = userDefaults?.objectForKey("path") as! String?
@@ -329,40 +335,59 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       }
    }
    
-//MARK: facebook
    
-   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-      if segue.identifier == "FacebookSegue" {
-         ((segue.destinationViewController as! UINavigationController).viewControllers[0] as! FacebookPicker).delegate = self
-      }
-   }
-   
-   func setFacebookData(data:Dictionary<String, AnyObject>) {
+}
 
-      if let fbid = data["id"] as? String {
-         self.fbid = fbid
+extension ViewController: CNContactPickerDelegate {
+   func contactPicker(picker: CNContactPickerViewController, didSelectContact contact: CNContact) {
+      
+      tempImageFromAddress = nil
+      self.fbField.text = ""
+      self.phoneField.text = ""
+      
+      if contact.imageDataAvailable {
+         tempImageFromAddress = UIImage(data: contact.imageData!)!
          
-         self.fbField.text = self.fbid
-         
-         if let fbFirstName = data["first_name"] as? String {
-            if let fbLastName = data["last_name"] as? String {
-               self.fbName = "\(fbFirstName) \(fbLastName)"
-               
-               dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                  self.fbField.text = "\(self.fbName!) (\(self.fbid!))"
-               })
-               
-               saveData()
+      }
+      
+      tempPhoneNumbers.removeAll()
+      for phone in contact.phoneNumbers {
+         let t = (label: CNLabeledValue.localizedStringForLabel(phone.label), value: (phone.value as! CNPhoneNumber).stringValue)
+         tempPhoneNumbers.append(t)
+      }
+      
+      if(contact.isKeyAvailable(CNContactInstantMessageAddressesKey)) {
+         let messagers = contact.valueForKey(CNContactInstantMessageAddressesKey) as! NSArray
+         for messager in messagers {
+            let service = (messager as! CNLabeledValue).value as! CNInstantMessageAddress
+            if service.service == "Facebook" {
+               self.fbField.text = service.username
             }
          }
-      } else {
-         self.fbid = nil
       }
+      
+      saveData()
    }
-   
-//MARK: UITextField
+}
+
+extension ViewController: UITextFieldDelegate {
    func textFieldDidEndEditing(textField: UITextField) {
       saveData()
+   }
+   
+   func textFieldShouldReturn(textField: UITextField) -> Bool {
+      textField.resignFirstResponder()
+      saveData()
+      return true
+   }
+}
+
+extension ViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+   func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+      dismissViewControllerAnimated(true, completion: nil)
+
+      showImage(image)
+      saveImage()
    }
 }
 

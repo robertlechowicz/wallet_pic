@@ -28,3 +28,6 @@
 
 /* Class = "IBUILabel"; text = "FACEBOOK ID"; ObjectID = "tyI-HJ-F9R"; */
 "tyI-HJ-F9R.text" = "FACEBOOK ID";
+
+/* Class = "IBUINavigationItem"; title = "Facebook friends"; ObjectID = "EOp-x0-VYV"; */
+"EOp-x0-VYV.title" = "Znajomi z Facebooka";

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class FacebookPicker: UIViewController, UIWebViewDelegate {
+class FacebookPickerOld: UIViewController, UIWebViewDelegate {
    
    var delegate:ViewController?
    

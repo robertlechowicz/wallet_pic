@@ -29,7 +29,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
    
    private var buttonViewHidden = false
    
-   let groupName = "group.com.128pixels.walletPic"
+   let groupName = "group.com.128pixels.walletPic1"
    
    var phone:String?
    var fbid:String?
@@ -49,6 +49,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
    override func viewWillAppear(animated: Bool) {
       super.viewWillAppear(animated)
       
+      updateData()
+      
       let buttonSize = round(self.view.frame.size.width / 6.4)
       buttonPhoneWidthConstraint.constant = buttonSize
       buttonSMSWidthConstraint.constant = buttonSize
@@ -63,6 +65,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
    }
    
    func imageTapped(recognizer:UITapGestureRecognizer) {
+      
+
+      
       buttonViewHidden = !buttonViewHidden
       
       let height = CGRectGetHeight(buttonView.bounds)
@@ -113,6 +118,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
    }
 
    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
+      updateData()
+      
+      completionHandler(NCUpdateResult.NewData)
+   }
+   
+   func updateData() {
       let userDefaults = NSUserDefaults(suiteName: groupName)
       
       self.buttonPhone.enabled = false
@@ -120,17 +131,21 @@ class TodayViewController: UIViewController, NCWidgetProviding {
       self.buttonFB.enabled = false
       
       if let phone = userDefaults?.objectForKey("phone") as! String? {
-         self.phone = phone
-         self.buttonPhone.enabled = true
-         self.buttonSMS.enabled = true
+         if phone != "" {
+            self.phone = phone
+            self.buttonPhone.enabled = true
+            self.buttonSMS.enabled = true
+         }
       }
       
-      if let fbid = userDefaults?.objectForKey("fbid") as! String? {
-         self.fbid = fbid
-         self.buttonFB.enabled = true
+      if let fbname = userDefaults?.objectForKey("fbName") as! String? {
+         if fbname != "" {
+            self.fbid = fbname
+            self.buttonFB.enabled = true
+         }
       }
       
-   
+      
       let possiblePath = userDefaults?.objectForKey("path") as! String?
       if let fileName = possiblePath {
          let fileManager = NSFileManager.defaultManager()
@@ -143,6 +158,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                let newWidth = self.view.frame.width
                let newHeight = round(newWidth / ratio)
                
+               _ = imageView.layer.sublayers?.map({ (layer) in
+                  layer.removeFromSuperlayer()
+               })
                imageView.image = image
                imageWidth.constant = newWidth
                imageHeight.constant = newHeight
@@ -160,6 +178,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             }
          }
       }
-      completionHandler(NCUpdateResult.NewData)
+      
    }
 }

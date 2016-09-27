@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
@@ -23,10 +24,10 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dE8-9Y-vpO">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                     <color key="backgroundColor" red="0.3921568627" green="0.3921568627" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="dE8-9Y-vpO" secondAttribute="height" multiplier="4:3" id="Hkp-l3-jgA"/>
+                        <constraint firstAttribute="width" secondItem="dE8-9Y-vpO" secondAttribute="height" multiplier="3:2" id="Hkp-l3-jgA"/>
                     </constraints>
                 </view>
             </subviews>

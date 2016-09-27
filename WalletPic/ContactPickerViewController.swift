@@ -9,9 +9,19 @@
 import ContactsUI
 
 class ContactPickerViewController: CNContactPickerViewController {
-
-   override func preferredStatusBarStyle() -> UIStatusBarStyle {
-      return UIStatusBarStyle.Default
+   
+   
+   override func viewDidLoad() {
+      super.viewDidLoad()
+      
+   }
+   
+   
+   override func viewWillAppear(animated: Bool) {
+      super.viewWillAppear(animated)
+      
+      UIApplication.sharedApplication().statusBarStyle = .LightContent
+      
    }
    
 }
