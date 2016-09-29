@@ -10,10 +10,10 @@ import UIKit
 
 class ImagePickerViewController: UIImagePickerController {
 
-   override func viewWillAppear(animated: Bool) {
+   override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
       
-      UIApplication.sharedApplication().statusBarStyle = .LightContent
+      UIApplication.shared.statusBarStyle = .lightContent
       
    }
 

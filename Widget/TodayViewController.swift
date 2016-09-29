@@ -27,7 +27,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
    @IBOutlet weak var buttonSMSWidthConstraint: NSLayoutConstraint!
    @IBOutlet weak var buttonFBWidthConstraint: NSLayoutConstraint!
    
-   private var buttonViewHidden = false
+   fileprivate var buttonViewHidden = false
    
    let groupName = "group.com.128pixels.walletPic"
    
@@ -37,16 +37,16 @@ class TodayViewController: UIViewController, NCWidgetProviding {
    override func viewDidLoad() {
       super.viewDidLoad()
       
-      buttonPhone.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
-      buttonSMS.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
-      buttonFB.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
+      buttonPhone.contentHorizontalAlignment = UIControlContentHorizontalAlignment.fill
+      buttonSMS.contentHorizontalAlignment = UIControlContentHorizontalAlignment.fill
+      buttonFB.contentHorizontalAlignment = UIControlContentHorizontalAlignment.fill
       
-      let tapGesture = UITapGestureRecognizer(target: self, action: "imageTapped:")
-      imageView.userInteractionEnabled = true
+      let tapGesture = UITapGestureRecognizer(target: self, action: #selector(TodayViewController.imageTapped(_:)))
+      imageView.isUserInteractionEnabled = true
       imageView.addGestureRecognizer(tapGesture)
    }
    
-   override func viewWillAppear(animated: Bool) {
+   override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
       
       updateData()
@@ -57,103 +57,103 @@ class TodayViewController: UIViewController, NCWidgetProviding {
       buttonFBWidthConstraint.constant = buttonSize
       buttonViewHeightConstraint.constant = buttonSize
       
-      buttonPhone.imageView?.contentMode = UIViewContentMode.ScaleAspectFill
-      buttonSMS.imageView?.contentMode = UIViewContentMode.ScaleAspectFill
-      buttonFB.imageView?.contentMode = UIViewContentMode.ScaleAspectFill
+      buttonPhone.imageView?.contentMode = UIViewContentMode.scaleAspectFill
+      buttonSMS.imageView?.contentMode = UIViewContentMode.scaleAspectFill
+      buttonFB.imageView?.contentMode = UIViewContentMode.scaleAspectFill
       
       view.layoutIfNeeded()
    }
    
-   func imageTapped(recognizer:UITapGestureRecognizer) {
+   func imageTapped(_ recognizer:UITapGestureRecognizer) {
       
 
       
       buttonViewHidden = !buttonViewHidden
       
-      let height = CGRectGetHeight(buttonView.bounds)
+      let height = buttonView.bounds.height
       var constant = buttonViewBottomConstraint.constant
       constant = buttonViewHidden ? -height : 20.0
       view.layoutIfNeeded()
       
-      UIView.animateWithDuration(0.5,
+      UIView.animate(withDuration: 0.5,
          delay: 0,
          usingSpringWithDamping: 0.95,
          initialSpringVelocity: 1,
-         options: [.AllowUserInteraction, .BeginFromCurrentState],
+         options: [.allowUserInteraction, .beginFromCurrentState],
          animations: { () -> Void in
             self.buttonViewBottomConstraint.constant = constant
             self.view.layoutIfNeeded()
          }, completion: nil)
    }
    
-   @IBAction func buttonPhoneTapped(sender: UIButton) {
+   @IBAction func buttonPhoneTapped(_ sender: UIButton) {
       if phone != nil {
-         if let url = NSURL(string: "tel:\(phone!)") {
+         if let url = URL(string: "tel:\(phone!)") {
             print(url)
-            extensionContext?.openURL(url, completionHandler: nil)
+            extensionContext?.open(url, completionHandler: nil)
          }
       }
    }
    
-   @IBAction func buttonSMSTapped(sender: UIButton) {
+   @IBAction func buttonSMSTapped(_ sender: UIButton) {
       if phone != nil {
-         if let url = NSURL(string: "sms:\(phone!)") {
+         if let url = URL(string: "sms:\(phone!)") {
             print(url)
-            extensionContext?.openURL(url, completionHandler: nil)
+            extensionContext?.open(url, completionHandler: nil)
          }
       }
    }
    
-   @IBAction func buttonFBTapped(sender: UIButton) {
+   @IBAction func buttonFBTapped(_ sender: UIButton) {
       if fbid != nil {
-         if let url = NSURL(string: "fb-messenger://user-thread/\(fbid!)") {
+         if let url = URL(string: "fb-messenger://user-thread/\(fbid!)") {
             print(url)
-            extensionContext?.openURL(url, completionHandler: nil)
+            extensionContext?.open(url, completionHandler: nil)
          }
       }
    }
    
-   func widgetMarginInsetsForProposedMarginInsets(defaultMarginInsets: UIEdgeInsets) -> UIEdgeInsets {
+   func widgetMarginInsets(forProposedMarginInsets defaultMarginInsets: UIEdgeInsets) -> UIEdgeInsets {
       return UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
    }
 
-   func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
+   func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
       updateData()
       
-      completionHandler(NCUpdateResult.NewData)
+      completionHandler(NCUpdateResult.newData)
    }
    
    func updateData() {
-      let userDefaults = NSUserDefaults(suiteName: groupName)
+      let userDefaults = UserDefaults(suiteName: groupName)
       
-      self.buttonPhone.enabled = false
-      self.buttonSMS.enabled = false
-      self.buttonFB.enabled = false
+      self.buttonPhone.isEnabled = false
+      self.buttonSMS.isEnabled = false
+      self.buttonFB.isEnabled = false
       
-      if let phone = userDefaults?.objectForKey("phone") as! String? {
+      if let phone = userDefaults?.object(forKey: "phone") as! String? {
          if phone != "" {
             self.phone = phone
-            self.buttonPhone.enabled = true
-            self.buttonSMS.enabled = true
+            self.buttonPhone.isEnabled = true
+            self.buttonSMS.isEnabled = true
          }
       }
       
-      if let fbname = userDefaults?.objectForKey("fbName") as! String? {
+      if let fbname = userDefaults?.object(forKey: "fbName") as! String? {
          if fbname != "" {
             self.fbid = fbname
-            self.buttonFB.enabled = true
+            self.buttonFB.isEnabled = true
          }
       }
       
       
-      let possiblePath = userDefaults?.objectForKey("path") as! String?
+      let possiblePath = userDefaults?.object(forKey: "path") as! String?
       if let fileName = possiblePath {
-         let fileManager = NSFileManager.defaultManager()
-         let oUrl:NSURL? = fileManager.containerURLForSecurityApplicationGroupIdentifier(groupName)
+         let fileManager = FileManager.default
+         let oUrl:URL? = fileManager.containerURL(forSecurityApplicationGroupIdentifier: groupName)
          if var url = oUrl {
             
-            url = NSURL(string: url.absoluteString + fileName)!
-            if let image = UIImage(data: NSData(contentsOfURL: url)!) {
+            url = URL(string: url.absoluteString + fileName)!
+            if let image = UIImage(data: try! Data(contentsOf: url)) {
                let ratio = image.size.width / image.size.height
                let newWidth = self.view.frame.width
                let newHeight = round(newWidth / ratio)
@@ -169,9 +169,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                
                
                let l = CAGradientLayer()
-               l.frame = CGRectMake(0.0, newHeight - (round(newHeight / 2.4)), newWidth, round(newHeight / 2.4))
+               l.frame = CGRect(x: 0.0, y: newHeight - (round(newHeight / 2.4)), width: newWidth, height: round(newHeight / 2.4))
                
-               l.colors = [UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.0).CGColor, UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.7).CGColor]
+               l.colors = [UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.0).cgColor, UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.7).cgColor]
                self.imageView.layer.addSublayer(l)
                
                preferredContentSize = CGSize(width: newWidth, height: newHeight)

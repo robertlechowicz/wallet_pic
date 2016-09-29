@@ -11,383 +11,386 @@ import ContactsUI
 
 
 class ViewController: UIViewController {
-
-   @IBOutlet weak var containerView: UIView!
-   @IBOutlet weak var canvasView: UIView!
-   @IBOutlet weak var imageView: UIImageView!
-   @IBOutlet weak var buttonAddressPicker: UIButton!
-   @IBOutlet weak var buttonCamera: UIButton!
-   
-   @IBOutlet weak var phoneField: UITextField!
-   @IBOutlet weak var fbField: UITextField!
-   
-   @IBOutlet weak var scrollView: UIScrollView!
-
-   
-   let groupName = "group.com.128pixels.walletPic"
-   
-   private var lastScale:CGFloat = 1.0
-   private var firstX:CGFloat = 0
-   private var firstY:CGFloat = 0
-   
-   
-   var tempImageFromAddress:UIImage?
-   
-   var tempPhoneNumbers = [(label:String, value:String)]()
-   
-   var shortIphone:Bool = false
-   
-   
-   
-   override func viewDidLoad() {
-      super.viewDidLoad()
+  
+  @IBOutlet weak var containerView: UIView!
+  @IBOutlet weak var canvasView: UIView!
+  @IBOutlet weak var imageView: UIImageView!
+  @IBOutlet weak var buttonAddressPicker: UIButton!
+  @IBOutlet weak var buttonCamera: UIButton!
+  
+  @IBOutlet weak var phoneField: UITextField!
+  @IBOutlet weak var fbField: UITextField!
+  
+  @IBOutlet weak var scrollView: UIScrollView!
+  
+  
+  let groupName = "group.com.128pixels.walletPic"
+  
+  fileprivate var lastScale:CGFloat = 1.0
+  fileprivate var firstX:CGFloat = 0
+  fileprivate var firstY:CGFloat = 0
+  
+  
+  var tempImageFromAddress:UIImage?
+  
+  var tempPhoneNumbers = [(label:String, value:String)]()
+  
+  var shortIphone:Bool = false
+  
+  
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    
+    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.didTapAnywhere(_:)))
+    self.view.addGestureRecognizer(tapRecognizer)
+    
+    buttonAddressPicker.layer.cornerRadius = 20.0
+    
+    
+    self.containerView.isUserInteractionEnabled = true
+    self.containerView.clipsToBounds = true
+    
+    let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.scaleImage(_:)))
+    self.containerView.addGestureRecognizer(pinchRecognizer)
+    
+    let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ViewController.panImage(_:)))
+    self.canvasView.addGestureRecognizer(panRecognizer)
+    
+    let tapImageRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapImage(_:)))
+    self.containerView.addGestureRecognizer(tapImageRecognizer)
+    
+    
+    if UIScreen.main.nativeBounds.size.height < 1000 {
+      shortIphone = true
+    }
+    
+    NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    
+    showData()
+  }
+  
+  func keyboardWillShow(_ notification: Notification) {
+    
+    if let keyboardSize = ((notification as NSNotification).userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+      let contentInset = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height + 20.0, 0.0)
+      scrollView.contentInset = contentInset
+      scrollView.scrollIndicatorInsets = contentInset
+    }
+  }
+  
+  func keyboardWillHide(_ notification: Notification) {
+    
+    let contentInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
+    scrollView.contentInset = contentInset
+    scrollView.scrollIndicatorInsets = contentInset
+    
+  }
+  
+  func showImageAlert(_ image:UIImage) {
+    let alertImageView = UIAlertController(title: "", message: NSLocalizedString("Add photo from contact?", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
+    let yesAction = UIAlertAction(title: NSLocalizedString("Yes", comment: ""), style: UIAlertActionStyle.default, handler: { (action) -> Void in
+      alertImageView.removeFromParentViewController()
       
+      self.showImage(image)
+      self.saveImage()
       
-      let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("didTapAnywhere:"))
-      self.view.addGestureRecognizer(tapRecognizer)
+    })
+    alertImageView.addAction(yesAction)
+    let noAction = UIAlertAction(title: NSLocalizedString("No", comment: ""), style: UIAlertActionStyle.default, handler: { (action) -> Void in
+      alertImageView.removeFromParentViewController()
+    })
+    alertImageView.addAction(noAction)
+    
+    if let popoverController = alertImageView.popoverPresentationController {
+      popoverController.sourceView = buttonAddressPicker
+      popoverController.sourceRect = buttonAddressPicker.bounds
+    }
+    
+    self.present(alertImageView, animated: true, completion: nil)
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    UIApplication.shared.statusBarStyle = .lightContent
+    
+    
+    if tempPhoneNumbers.count == 1 {
+      self.phoneField.text = tempPhoneNumbers[0].value
+      self.saveData()
       
-      buttonAddressPicker.layer.cornerRadius = 20.0
-      
-      
-      self.containerView.userInteractionEnabled = true
-      self.containerView.clipsToBounds = true
-      
-      let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: "scaleImage:")
-      self.containerView.addGestureRecognizer(pinchRecognizer)
-      
-      let panRecognizer = UIPanGestureRecognizer(target: self, action: "panImage:")
-      self.canvasView.addGestureRecognizer(panRecognizer)
-      
-      let tapImageRecognizer = UITapGestureRecognizer(target: self, action: "tapImage:")
-      self.containerView.addGestureRecognizer(tapImageRecognizer)
-      
-      
-      if UIScreen.mainScreen().nativeBounds.size.height < 1000 {
-         shortIphone = true
+      if let tempImage = self.tempImageFromAddress {
+        self.showImageAlert(tempImage)
+        self.tempImageFromAddress = nil
       }
       
-      NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-      NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-      
-      showData()
-   }
-   
-   func keyboardWillShow(notification: NSNotification) {
-
-      if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-         let contentInset = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height + 20.0, 0.0)
-         scrollView.contentInset = contentInset
-         scrollView.scrollIndicatorInsets = contentInset
-      }
-   }
-   
-   func keyboardWillHide(notification: NSNotification) {
-
-         let contentInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
-         scrollView.contentInset = contentInset
-         scrollView.scrollIndicatorInsets = contentInset
-
-   }
-   
-   func showImageAlert(image:UIImage) {
-      let alertImageView = UIAlertController(title: "", message: NSLocalizedString("Add photo from contact?", comment: ""), preferredStyle: UIAlertControllerStyle.ActionSheet)
-      let yesAction = UIAlertAction(title: NSLocalizedString("Yes", comment: ""), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-         alertImageView.removeFromParentViewController()
-         
-         self.showImage(image)
-         self.saveImage()
-         
-      })
-      alertImageView.addAction(yesAction)
-      let noAction = UIAlertAction(title: NSLocalizedString("No", comment: ""), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-         alertImageView.removeFromParentViewController()
-      })
-      alertImageView.addAction(noAction)
-      
-      if let popoverController = alertImageView.popoverPresentationController {
-         popoverController.sourceView = buttonAddressPicker
-         popoverController.sourceRect = buttonAddressPicker.bounds
-      }
-      
-      self.presentViewController(alertImageView, animated: true, completion: nil)
-   }
-   
-   override func viewWillAppear(animated: Bool) {
-      super.viewWillAppear(animated)
-      
-      UIApplication.sharedApplication().statusBarStyle = .LightContent
+    } else if tempPhoneNumbers.count > 1 {
+      let alertPhoneView = UIAlertController(title: "", message: NSLocalizedString("Select phone number", comment: ""), preferredStyle: .actionSheet)
       
       
-      if tempPhoneNumbers.count == 1 {
-         self.phoneField.text = tempPhoneNumbers[0].value
-         self.saveData()
-         
-         if let tempImage = self.tempImageFromAddress {
+      for phone in tempPhoneNumbers {
+        let action = UIAlertAction(title: phone.label + " " + phone.value, style: .default, handler: { (action) -> Void in
+          self.phoneField.text = phone.value
+          self.saveData()
+          alertPhoneView.removeFromParentViewController()
+          
+          if let tempImage = self.tempImageFromAddress {
             self.showImageAlert(tempImage)
             self.tempImageFromAddress = nil
-         }
-         
-      } else if tempPhoneNumbers.count > 1 {
-         let alertPhoneView = UIAlertController(title: "", message: NSLocalizedString("Select phone number", comment: ""), preferredStyle: .ActionSheet)
-         
-         
-         for phone in tempPhoneNumbers {
-            let action = UIAlertAction(title: phone.label + " " + phone.value, style: .Default, handler: { (action) -> Void in
-               self.phoneField.text = phone.value
-               self.saveData()
-               alertPhoneView.removeFromParentViewController()
-               
-               if let tempImage = self.tempImageFromAddress {
-                  self.showImageAlert(tempImage)
-                  self.tempImageFromAddress = nil
-               }
-               
-            })
-            alertPhoneView.addAction(action)
-         }
-         
-         if let popoverController = alertPhoneView.popoverPresentationController {
-            popoverController.sourceView = buttonAddressPicker
-            popoverController.sourceRect = buttonAddressPicker.bounds
-         }
-         
-         self.presentViewController(alertPhoneView, animated: true, completion: nil)
-         
-         tempPhoneNumbers.removeAll()
+          }
+          
+        })
+        alertPhoneView.addAction(action)
       }
       
-      
-   }
-   
-   func didTapAnywhere(recognizer:UITapGestureRecognizer) {
-      self.view.endEditing(true)
-   }
-   
-   @IBAction func buttonAddressPickerTapped(sender: UIButton) {
-      
-      self.view.endEditing(true)
-      let picker = ContactPickerViewController()
-      picker.delegate = self
-      presentViewController(picker, animated: true, completion: nil)
-   }
-   
-   
-   
-   
-   @IBAction func buttonFacebookTapped(sender: UIButton) {
-      self.view.endEditing(true)
-   }
-   
-   @IBAction func buttonCameraTapped(sender: UIButton) {
-      let picker = ImagePickerViewController()
-      picker.delegate = self
-      presentViewController(picker, animated: true, completion: nil)
-   }
-   
-   
-   func showImage(image:UIImage) {
-      self.imageView.image = image
-      self.imageView.frame = CGRectMake(0.0, 0.0, image.size.width, image.size.height)
-      self.imageView.clipsToBounds = true
-      
-      let imageRatio = image.size.width / image.size.height
-      
-      var scale: CGFloat
-      if imageRatio > 4.0 / 3.0 {
-         scale = self.containerView.frame.height / image.size.height
-      } else {
-         scale = self.containerView.frame.width / image.size.width
-      }
-
-      let newTransform = CGAffineTransformMakeScale(scale, scale)
-      self.imageView.transform = newTransform
-      self.imageView.center = CGPointMake(self.containerView.center.x, self.containerView.center.y)
-   }
-   
-   func scaleImage(recognizer:UIPinchGestureRecognizer) {
-      if recognizer.state == UIGestureRecognizerState.Began {
-         lastScale = 1.0
+      if let popoverController = alertPhoneView.popoverPresentationController {
+        popoverController.sourceView = buttonAddressPicker
+        popoverController.sourceRect = buttonAddressPicker.bounds
       }
       
-      let scale:CGFloat = 1.0 - (lastScale - recognizer.scale)
+      self.present(alertPhoneView, animated: true, completion: nil)
       
-      //let newWidth = imageView.frame.size.width * scale
-      //let newHeight = imageView.frame.size.height * scale
+      tempPhoneNumbers.removeAll()
+    }
+    
+    
+  }
+  
+  func didTapAnywhere(_ recognizer:UITapGestureRecognizer) {
+    self.view.endEditing(true)
+  }
+  
+  @IBAction func buttonAddressPickerTapped(_ sender: UIButton) {
+    
+    self.view.endEditing(true)
+    let picker = ContactPickerViewController()
+    picker.delegate = self
+    present(picker, animated: true, completion: nil)
+  }
+  
+  
+  
+  
+  @IBAction func buttonFacebookTapped(_ sender: UIButton) {
+    self.view.endEditing(true)
+  }
+  
+  @IBAction func buttonCameraTapped(_ sender: UIButton) {
+    let picker = ImagePickerViewController()
+    picker.delegate = self
+    present(picker, animated: true, completion: nil)
+  }
+  
+  
+  func showImage(_ image:UIImage) {
+    self.imageView.image = image
+    self.imageView.frame = CGRect(x: 0.0, y: 0.0, width: image.size.width, height: image.size.height)
+    self.imageView.clipsToBounds = true
+    
+    let imageRatio = image.size.width / image.size.height
+    
+    var scale: CGFloat
+    if imageRatio > 4.0 / 3.0 {
+      scale = self.containerView.frame.height / image.size.height
+    } else {
+      scale = self.containerView.frame.width / image.size.width
+    }
+    
+    let newTransform = CGAffineTransform(scaleX: scale, y: scale)
+    self.imageView.transform = newTransform
+    self.imageView.center = CGPoint(x: self.containerView.center.x, y: self.containerView.center.y)
+  }
+  
+  func scaleImage(_ recognizer:UIPinchGestureRecognizer) {
+    if recognizer.state == UIGestureRecognizerState.began {
+      lastScale = 1.0
+    }
+    
+    let scale:CGFloat = 1.0 - (lastScale - recognizer.scale)
+    
+    //let newWidth = imageView.frame.size.width * scale
+    //let newHeight = imageView.frame.size.height * scale
+    
+    let currentTransform = imageView.transform
+    let newTransform = currentTransform.scaledBy(x: scale, y: scale)
+    
+    self.imageView.transform = newTransform
+    lastScale = recognizer.scale
+    
+    if recognizer.state == UIGestureRecognizerState.ended {
+      fixImagePosition()
+    }
+  }
+  
+  func panImage(_ recognizer:UIPanGestureRecognizer) {
+    var translatedPoint = recognizer.translation(in: self.canvasView)
+    
+    if recognizer.state == UIGestureRecognizerState.began {
+      firstX = imageView.center.x
+      firstY = imageView.center.y
+    }
+    
+    translatedPoint = CGPoint(x: firstX + translatedPoint.x, y: firstY + translatedPoint.y)
+    
+    self.imageView.center = translatedPoint
+    
+    if recognizer.state == UIGestureRecognizerState.ended {
+      fixImagePosition()
+    }
+  }
+  
+  func tapImage(_ recognizer:UITapGestureRecognizer) {
+    self.view.endEditing(true)
+    self.buttonCamera.isHidden = !self.buttonCamera.isHidden
+  }
+  
+  func fixImagePosition() {
+    //TODO: fix position & scale
+    
+    
+    saveImage()
+  }
+  
+  func saveImage() {
+    UIGraphicsBeginImageContext(self.containerView.frame.size)
+    self.containerView.layer.render(in: UIGraphicsGetCurrentContext()!)
+    let image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    let fileManager = FileManager.default
+    
+    //let imageData = UIImageJPEGRepresentation(image, 0.8)
+    let imageData = UIImagePNGRepresentation(image!)
+    let relativePath = "image_wallet_pic.png"
+    let oUrl:URL? = fileManager.containerURL(forSecurityApplicationGroupIdentifier: groupName)
+    if var url = oUrl {
       
-      let currentTransform = imageView.transform
-      let newTransform = CGAffineTransformScale(currentTransform, scale, scale)
-      
-      self.imageView.transform = newTransform
-      lastScale = recognizer.scale
-      
-      if recognizer.state == UIGestureRecognizerState.Ended {
-         fixImagePosition()
-      }
-   }
-   
-   func panImage(recognizer:UIPanGestureRecognizer) {
-      var translatedPoint = recognizer.translationInView(self.canvasView)
-      
-      if recognizer.state == UIGestureRecognizerState.Began {
-         firstX = imageView.center.x
-         firstY = imageView.center.y
-      }
-      
-      translatedPoint = CGPointMake(firstX + translatedPoint.x, firstY + translatedPoint.y)
-      
-      self.imageView.center = translatedPoint
-      
-      if recognizer.state == UIGestureRecognizerState.Ended {
-         fixImagePosition()
-      }
-   }
-   
-   func tapImage(recognizer:UITapGestureRecognizer) {
-      self.view.endEditing(true)
-      self.buttonCamera.hidden = !self.buttonCamera.hidden
-   }
-   
-   func fixImagePosition() {
-//TODO: fix position & scale
+      url = URL(string: url.absoluteString + relativePath)!
+      try? imageData?.write(to: url, options: [.atomic])
       
       
-      saveImage()
-   }
-   
-   func saveImage() {
-      UIGraphicsBeginImageContext(self.containerView.frame.size)
-      self.containerView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-      let image = UIGraphicsGetImageFromCurrentImageContext()
-      UIGraphicsEndImageContext()
+      let userDefaults = UserDefaults(suiteName: groupName)
       
-      let fileManager = NSFileManager.defaultManager()
+      userDefaults?.set(relativePath, forKey: "path")
       
-      //let imageData = UIImageJPEGRepresentation(image, 0.8)
-      let imageData = UIImagePNGRepresentation(image)
-      let relativePath = "image_wallet_pic.png"
-      let oUrl:NSURL? = fileManager.containerURLForSecurityApplicationGroupIdentifier(groupName)
-      if var url = oUrl {
-         
-         url = NSURL(string: url.absoluteString + relativePath)!
-         imageData?.writeToURL(url, atomically: true)
-         
-         
-         let userDefaults = NSUserDefaults(suiteName: groupName)
-         
-         userDefaults?.setObject(relativePath, forKey: "path")
-         
-         userDefaults?.setBool(true, forKey: "updated")
-         
-         userDefaults?.synchronize()
-         print("file saved") // at: \(url)")
-      }
-   }
-   
-   func saveData() {
-      let userDefaults = NSUserDefaults(suiteName: groupName)
-      
-      let phoneNumberPretty = phoneField.text
-      let fbName = fbField.text
-      
-      var phoneNumber = phoneNumberPretty
-      phoneNumber = phoneNumber!.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).joinWithSeparator("")
-      phoneNumber = phoneNumber!.stringByReplacingOccurrencesOfString("-", withString: "")
-         .stringByReplacingOccurrencesOfString("(", withString: "")
-         .stringByReplacingOccurrencesOfString(")", withString: "")
-      
-      
-      userDefaults?.setObject(phoneNumber, forKey: "phone")
-      userDefaults?.setObject(phoneNumberPretty, forKey: "phonePretty")
-      userDefaults?.setObject(fbName, forKey: "fbName")
-      
-      userDefaults?.setBool(true, forKey: "updated")
+      userDefaults?.set(true, forKey: "updated")
       
       userDefaults?.synchronize()
-      
-      print("data saved")
-   }
-   
-   func showData() {
-      let userDefaults = NSUserDefaults(suiteName: groupName)
-      
-      if let possiblePhone = userDefaults?.objectForKey("phonePretty") as! String? {
-         phoneField.text = possiblePhone
+      print("file saved") // at: \(url)")
+    }
+  }
+  
+  func saveData() {
+    let userDefaults = UserDefaults(suiteName: groupName)
+    
+    let phoneNumberPretty = phoneField.text
+    let fbName = fbField.text
+    
+    var phoneNumber = phoneNumberPretty
+    phoneNumber = phoneNumber!.components(separatedBy: CharacterSet.whitespaces).joined(separator: "")
+    phoneNumber = phoneNumber!.replacingOccurrences(of: "-", with: "")
+      .replacingOccurrences(of: "(", with: "")
+      .replacingOccurrences(of: ")", with: "")
+    
+    
+    userDefaults?.set(phoneNumber, forKey: "phone")
+    userDefaults?.set(phoneNumberPretty, forKey: "phonePretty")
+    userDefaults?.set(fbName, forKey: "fbName")
+    
+    userDefaults?.set(true, forKey: "updated")
+    
+    userDefaults?.synchronize()
+    
+    print("data saved")
+  }
+  
+  func showData() {
+    let userDefaults = UserDefaults(suiteName: groupName)
+    
+    if let possiblePhone = userDefaults?.object(forKey: "phonePretty") as! String? {
+      phoneField.text = possiblePhone
+    }
+    
+    if let possibleFBName = userDefaults?.object(forKey: "fbName") as! String? {
+      fbField.text = possibleFBName
+    }
+    
+    let possiblePath = userDefaults?.object(forKey: "path") as! String?
+    if let fileName = possiblePath {
+      let fileManager = FileManager.default
+      let oUrl:URL? = fileManager.containerURL(forSecurityApplicationGroupIdentifier: groupName)
+      if var url = oUrl {
+        url = URL(string: url.absoluteString + fileName)!
+        let imageData = try! Data(contentsOf: url)
+        let image = UIImage(data: imageData)!
+        self.imageView.image = image
+        //println(self.imageView.image!.size)
+        
       }
-      
-      if let possibleFBName = userDefaults?.objectForKey("fbName") as! String? {
-         fbField.text = possibleFBName
-      }
-      
-      let possiblePath = userDefaults?.objectForKey("path") as! String?
-      if let fileName = possiblePath {
-         let fileManager = NSFileManager.defaultManager()
-         let oUrl:NSURL? = fileManager.containerURLForSecurityApplicationGroupIdentifier(groupName)
-         if var url = oUrl {
-            url = NSURL(string: url.absoluteString + fileName)!
-            let imageData = NSData(contentsOfURL: url)!
-            let image = UIImage(data: imageData)!
-            self.imageView.image = image
-            //println(self.imageView.image!.size)
-            
-         }
-      } else {
-         print("no file")
-      }
-   }
-   
-   
+    } else {
+      print("no file")
+    }
+  }
+  
+  
 }
 
 extension ViewController: CNContactPickerDelegate {
-   func contactPicker(picker: CNContactPickerViewController, didSelectContact contact: CNContact) {
+  func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+    
+    tempImageFromAddress = nil
+    self.fbField.text = ""
+    self.phoneField.text = ""
+    
+    if contact.imageDataAvailable {
+      tempImageFromAddress = UIImage(data: contact.imageData!)!
       
-      tempImageFromAddress = nil
-      self.fbField.text = ""
-      self.phoneField.text = ""
+    }
+    
+    tempPhoneNumbers.removeAll()
+    for phone in contact.phoneNumbers {
       
-      if contact.imageDataAvailable {
-         tempImageFromAddress = UIImage(data: contact.imageData!)!
-         
+      
+      let t = (label: CNLabeledValue<NSString>.localizedString(forLabel: phone.label!),
+               value: (phone.value as CNPhoneNumber).stringValue)
+      tempPhoneNumbers.append(t)
+    }
+    
+    if(contact.isKeyAvailable(CNContactInstantMessageAddressesKey)) {
+      let messagers = contact.instantMessageAddresses
+      for messager in messagers {
+        let service = messager.value
+        if service.service == "Facebook" {
+           self.fbField.text = service.username
+        }
       }
-      
-      tempPhoneNumbers.removeAll()
-      for phone in contact.phoneNumbers {
-         let t = (label: CNLabeledValue.localizedStringForLabel(phone.label), value: (phone.value as! CNPhoneNumber).stringValue)
-         tempPhoneNumbers.append(t)
-      }
-      
-      if(contact.isKeyAvailable(CNContactInstantMessageAddressesKey)) {
-         let messagers = contact.valueForKey(CNContactInstantMessageAddressesKey) as! NSArray
-         for messager in messagers {
-            let service = (messager as! CNLabeledValue).value as! CNInstantMessageAddress
-            if service.service == "Facebook" {
-               self.fbField.text = service.username
-            }
-         }
-      }
-      
-      saveData()
-   }
+    }
+    
+    saveData()
+  }
 }
 
 extension ViewController: UITextFieldDelegate {
-   func textFieldDidEndEditing(textField: UITextField) {
-      saveData()
-   }
-   
-   func textFieldShouldReturn(textField: UITextField) -> Bool {
-      textField.resignFirstResponder()
-      saveData()
-      return true
-   }
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    saveData()
+  }
+  
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    saveData()
+    return true
+  }
 }
 
 extension ViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-   func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-      dismissViewControllerAnimated(true, completion: nil)
-
-      showImage(image)
-      saveImage()
-   }
+  func imagePickerController(_ picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: [AnyHashable: Any]!) {
+    dismiss(animated: true, completion: nil)
+    
+    showImage(image)
+    saveImage()
+  }
 }
 
